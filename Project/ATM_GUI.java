@@ -54,7 +54,7 @@ public class ATM_GUI {
         // Add the panel to the frame
         frame.add(panel);
 
-        // Action listeners for buttons
+        // Action for buttons
         checkBalanceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

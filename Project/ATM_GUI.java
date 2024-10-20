@@ -1,3 +1,4 @@
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -15,87 +16,75 @@ public class ATM_GUI {
 
     private void createGUI() {
         frame = new JFrame("PU ATM Machine");
-        frame.setSize(600, 400);
+        frame.setSize(400, 300);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Create a custom panel to hold all components
-        GradientPanel panel = new GradientPanel();
-        panel.setLayout(new BorderLayout());
+        // Create a panel to hold all components
+        JPanel panel = new JPanel();
+        panel.setLayout(new GridLayout(5, 1));
 
-        // Title section with picture
-        JPanel titlePanel = new JPanel(new BorderLayout());
         JLabel welcomeLabel = new JLabel("Welcome to PU ATM Machine", JLabel.CENTER);
-        welcomeLabel.setFont(new Font("Arial", Font.BOLD, 35));
-        titlePanel.add(welcomeLabel, BorderLayout.CENTER);
+        panel.add(welcomeLabel);
 
-        // Add a picture to the title section
-        // JLabel pictureLabel = new JLabel(new ImageIcon("./Images/pu-logo-1.png"));
-        // titlePanel.add(pictureLabel, BorderLayout.WEST);
+        // Text field for displaying the balance
+        balanceField = new JTextField("Balance: " + String.format("%.2f", account.getBalance()));
+        balanceField.setEditable(false);
+        panel.add(balanceField);
 
-        panel.add(titlePanel, BorderLayout.NORTH);
+        // Input field for entering deposit/withdraw amounts
+        amountField = new JTextField();
+        panel.add(amountField);
 
-        // Left panel for buttons
+        // Button panel
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(4, 1));
+        buttonPanel.setLayout(new GridLayout(1, 4));
 
-        JButton checkBalanceButton = createGradientButton("Check Balance");
-        JButton depositButton = createGradientButton("Deposit");
-        JButton withdrawButton = createGradientButton("Withdraw");
-        JButton exitButton = createGradientButton("Exit");
+        JButton checkBalanceButton = new JButton("Check Balance");
+        JButton depositButton = new JButton("Deposit");
+        JButton withdrawButton = new JButton("Withdraw");
+        JButton exitButton = new JButton("Exit");
 
         buttonPanel.add(checkBalanceButton);
         buttonPanel.add(depositButton);
         buttonPanel.add(withdrawButton);
         buttonPanel.add(exitButton);
 
-        panel.add(buttonPanel, BorderLayout.WEST);
-
-        // Right panel for balance and input fields
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new GridLayout(3, 1));
-
-        balanceField = new JTextField("Balance: " + String.format("%.2f", account.getBalance()));
-        balanceField.setEditable(false);
-        rightPanel.add(balanceField);
-
-        amountField = new JTextField();
-        rightPanel.add(amountField);
-
-        panel.add(rightPanel, BorderLayout.CENTER);
+        panel.add(buttonPanel);
 
         // Add the panel to the frame
         frame.add(panel);
 
         // Action listeners for buttons
-        checkBalanceButton.addActionListener(e -> checkBalance());
-        depositButton.addActionListener(e -> deposit());
-        withdrawButton.addActionListener(e -> withdraw());
-        exitButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(frame, "Thank you for using the ATM.");
-            System.exit(0);
+        checkBalanceButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkBalance();
+            }
+        });
+
+        depositButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deposit();
+            }
+        });
+
+        withdrawButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                withdraw();
+            }
+        });
+
+        exitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(frame, "Thank you for using the ATM.");
+                System.exit(0);
+            }
         });
 
         frame.setVisible(true);
-    }
-
-    private JButton createGradientButton(String text) {
-        JButton button = new JButton(text) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Graphics2D g2d = (Graphics2D) g;
-                int width = getWidth();
-                int height = getHeight();
-                Color color1 = new Color(111, 123, 247); // RGB values for #6f7bf7
-                Color color2 = new Color(155, 248, 244); // RGB values for #9bf8f4
-                GradientPaint gp = new GradientPaint(0, 0, color1, width, height, color2);
-                g2d.setPaint(gp);
-                g2d.fillRect(0, 0, width, height);
-                super.paintComponent(g);
-            }
-        };
-        button.setContentAreaFilled(false);
-        button.setOpaque(true);
-        return button;
     }
 
     private void checkBalance() {
@@ -130,43 +119,6 @@ public class ATM_GUI {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            double initialBalance = 0;
-            boolean validInput = false;
+    
 
-            while (!validInput) {
-                try {
-                    String input = JOptionPane.showInputDialog(null, "Enter initial balance:");
-                    if (input == null) {
-                        JOptionPane.showMessageDialog(null, "You must enter an initial balance to proceed.");
-                    } else {
-                        initialBalance = Double.parseDouble(input);
-                        validInput = true;
-                    }
-                } catch (NumberFormatException e) {
-                    JOptionPane.showMessageDialog(null, "Please enter a valid numeric value for the initial balance.");
-                }
-            }
-
-            BankAccount userAccount = new BankAccount(initialBalance);
-            new ATM_GUI(userAccount);
-        });
-    }
-
-    // Custom JPanel with gradient background
-    class GradientPanel extends JPanel {
-        @Override
-        protected void paintComponent(Graphics g) {
-            super.paintComponent(g);
-            Graphics2D g2d = (Graphics2D) g;
-            int width = getWidth();
-            int height = getHeight();
-            Color color1 = new Color(111, 123, 247); // RGB values for #6f7bf7
-            Color color2 = new Color(155, 248, 244); // RGB values for #9bf8f4
-            GradientPaint gp = new GradientPaint(0, 0, color1, width, height, color2);
-            g2d.setPaint(gp);
-            g2d.fillRect(0, 0, width, height);
-        }
-    }
 }

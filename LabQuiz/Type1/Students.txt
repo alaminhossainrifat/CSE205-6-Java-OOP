@@ -1,0 +1,15 @@
+Amit,78
+Riya,85
+Sourav,92
+Priya,88
+Tanmoy,76
+Mita,89
+Rahul,95
+Ishita,80
+Anik,83
+Farzana,91
+Dipak,67
+Shreya,82
+Mukul,90
+Niloy,77
+Reshma,84

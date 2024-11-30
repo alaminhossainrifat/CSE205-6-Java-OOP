@@ -2,6 +2,6 @@
     "java.debug.settings.onBuildFailureProceed": true,
     "java.project.referencedLibraries": [
         "lib/**/*.jar",
-        "c:\\Users\\Rifat\\Downloads\\mysql-connector-j-8.0.31.jar"
+        "Project/Type2/Quiz-System/Connector/mysql-connector-j-8.0.31.jar"
     ]
 }

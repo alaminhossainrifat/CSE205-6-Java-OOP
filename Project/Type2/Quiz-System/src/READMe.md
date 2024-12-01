@@ -1,5 +1,5 @@
 # Quiz Management System
-Welcome to my little back-end development project!
+Welcome to our project!
 
 ---
 
